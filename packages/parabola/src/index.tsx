@@ -61,7 +61,7 @@ export class Parabola {
                 );
               }
             }
-            if (type === "dispatch") {
+            if (type === "action") {
               this.controlBus.invoke(payload.key, payload);
             }
           },
@@ -76,6 +76,10 @@ export class Parabola {
       fetch: app.fetch,
       websocket,
     });
+  }
+
+  invalidate(key: string) {
+    this.renderer.update(key);
   }
 
   template(key: string, cb: () => JSX.Element) {

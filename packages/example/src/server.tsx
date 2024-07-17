@@ -2,51 +2,45 @@ import { Parabola } from "../../parabola/src";
 
 export const parabola = new Parabola();
 
-const comments: string[] = [];
-let notifications: number = 0;
+const options = [
+  {
+    id: "1",
+    text: "option 1",
+    votes: 0,
+  },
+  {
+    id: "2",
+    text: "option 2",
+    votes: 0,
+  },
+];
 
 parabola.template("main", () => {
   return (
     <div>
-      <div p-template="header" />
-      HELLO WORLD
-      <div p-template="viewComments" />
+      <div p-template="poll" />
     </div>
   );
 });
 
-parabola.template("header", () => {
-  return <header>LOGO {notifications}</header>;
-});
-
-parabola.template("viewComments", () => {
+parabola.template("poll", () => {
   return (
     <div>
-      <form p-dispatch="createComment">
-        <input name="comment" />
-        <button>submit</button>
-      </form>
-
-      <div p-template="comments" />
+      {options.map((option) => (
+        <form p-action="vote">
+          {option.text} - ({option.votes} votes)
+          <input type="hidden" name="optionId" value={option.id} />
+          <button>vote</button>
+        </form>
+      ))}
     </div>
   );
 });
 
-parabola.template("comments", () => {
-  console.log("re-render comments template");
-  return (
-    <ul>
-      {comments.map((comment) => (
-        <li>{comment}</li>
-      ))}
-    </ul>
-  );
-});
-
-parabola.action("createComment", (invalidate, data) => {
-  console.log("createComment", data);
-  comments.push(data.comment);
-  notifications++;
-  invalidate("header");
-  invalidate("comments");
+parabola.action("vote", (invalidate, data) => {
+  const voteId = data.optionId;
+  const option = options.find((option) => option.id === voteId);
+  if (!option) return;
+  option.votes++;
+  invalidate("poll");
 });

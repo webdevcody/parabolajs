@@ -1,6 +1,6 @@
 # parabolajs
 
-To install dependencies:
+this is a work in progress and a prototype
 
 ```bash
 bun install
@@ -9,7 +9,5 @@ bun install
 To run:
 
 ```bash
-bun run index.ts
+bun run dev
 ```
-
-This project was created using `bun init` in bun v1.1.12. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.

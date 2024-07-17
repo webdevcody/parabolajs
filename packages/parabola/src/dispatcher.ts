@@ -7,7 +7,6 @@ export class Dispatcher {
     if (!this.subscriptions.has(key)) {
       this.subscriptions.set(key, new Set());
     }
-    console.log("user subscribed to ", key);
     this.subscriptions.get(key).add(ws);
   }
 

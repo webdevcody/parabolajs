@@ -1,0 +1,17 @@
+{
+  "name": "@parabolajs/parabola",
+  "main": "src/index",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tailwindcss": "^3.4.6"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "hono": "^4.5.0"
+  },
+  "scripts": {
+  }
+}

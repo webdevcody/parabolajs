@@ -6,30 +6,44 @@ const { upgradeWebSocket, websocket } = createBunWebSocket();
 import { ControlBus } from "./bus";
 import { Dispatcher } from "./dispatcher";
 import { Renderer } from "./renderer";
-import { serveStatic } from "hono/bun";
+import fs from "fs/promises";
+import path from "path";
 
 export class Parabola {
   private dispatcher: Dispatcher;
   private renderer: Renderer;
   private controlBus: ControlBus;
+  private app: Hono;
 
-  constructor() {
+  getApp() {
+    return this.app;
+  }
+
+  constructor(opts?: { styles?: string[] }) {
     this.dispatcher = new Dispatcher();
     this.renderer = new Renderer(this.dispatcher);
     this.controlBus = new ControlBus(this.renderer);
 
     const app = new Hono();
+    this.app = app;
 
-    app.use(
-      "/static/parabola.js",
-      serveStatic({ path: "./packages/parabola/src/parabola.js" })
-    );
+    app.get("/static/parabola.js", async (c) => {
+      const filePath = path.join(__dirname, "./parabola.js");
+      const js = await fs.readFile(filePath, {
+        encoding: "utf-8",
+      });
+      return c.html(js);
+    });
 
     app.get("/", (c) => {
       return c.html(
         <html>
           <head>
             <meta charset="UTF-8" />
+            <title>Parabola</title>
+            {opts?.styles?.map((style) => (
+              <link rel="stylesheet" href={style} />
+            ))}
           </head>
           <body>
             <div p-template="main">loading...</div>
@@ -82,6 +96,7 @@ export class Parabola {
     this.renderer.update(key);
   }
 
+  // I'm not sure why this can't be JSXNode... it causes consumers to get type errors
   template(key: string, cb: () => JSX.Element) {
     this.renderer.register(key, cb);
   }

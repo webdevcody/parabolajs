@@ -1,5 +1,6 @@
 import { Parabola } from "@parabolajs/parabola";
 
+const MAX_MESSAGES = 100;
 const messages: string[] = [];
 
 export function registerChat(parabola: Parabola) {
@@ -10,7 +11,12 @@ export function registerChat(parabola: Parabola) {
 
         <div class="flex flex-col gap-8 justify-center pt-12">
           <form p-action="sendMessage">
-            <input name="message" type="text" class="input input-bordered" />
+            <input
+              required
+              name="message"
+              type="text"
+              class="input input-bordered"
+            />
             <button class="btn btn-primary">send</button>
           </form>
 
@@ -31,7 +37,8 @@ export function registerChat(parabola: Parabola) {
   });
 
   parabola.action("sendMessage", (invalidate, data) => {
-    messages.push(data.message);
+    messages.unshift(data.message);
+    messages.splice(MAX_MESSAGES);
     invalidate("messageList");
   });
 }

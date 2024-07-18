@@ -6,8 +6,12 @@ this is a work in progress and a prototype
 bun install
 ```
 
-To run:
+To run the example website:
 
 ```bash
-bun run example
+bun run dev
 ```
+
+## Workflow
+
+Just run the example website and then modify the framework code as needed inside packages/parabola.

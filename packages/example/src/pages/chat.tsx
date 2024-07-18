@@ -2,6 +2,11 @@ import { Parabola } from "@parabolajs/parabola";
 
 const MAX_MESSAGES = 100;
 const messages: string[] = [];
+import Filter from "bad-words";
+
+const filter = new Filter();
+
+console.log(filter.clean("Don't be an ash0le")); //
 
 export function registerChat(parabola: Parabola) {
   parabola.template("chat", () => {
@@ -37,7 +42,8 @@ export function registerChat(parabola: Parabola) {
   });
 
   parabola.action("sendMessage", (invalidate, data) => {
-    messages.unshift(data.message);
+    const message = filter.clean(data.message);
+    messages.unshift(message);
     messages.splice(MAX_MESSAGES);
     invalidate("messageList");
   });

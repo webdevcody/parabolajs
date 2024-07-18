@@ -5,6 +5,6 @@
     "packages/*"
   ],
   "scripts": {
-    "example": "cd packages/example && bun run dev"
+    "example": "cd packages/example && bun run start"
   }
 }

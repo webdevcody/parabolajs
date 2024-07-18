@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "run-p server tailwind",
     "server": "bun --watch src/index.tsx",
+    "start": "bun src/index.tsx",
     "tailwind": "tailwindcss -i src/styles.css -o dist/styles.css --watch",
     "build:tailwind": "tailwindcss -i src/styles.css -o dist/styles.css"
   },

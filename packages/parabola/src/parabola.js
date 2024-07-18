@@ -28,7 +28,6 @@ function connect() {
     const elements = parent.querySelectorAll("[p-load]");
     elements.forEach((element) => {
       const key = element.getAttribute("p-load");
-      console.log(element, key);
       ws.send(JSON.stringify({ type: "action", payload: { key, data: null } }));
     });
   }
@@ -71,7 +70,6 @@ function connect() {
 
       for (const route of window.parabolaRoutes) {
         if (route.path === path && id === route.target) {
-          console.log("found matching route and target", route);
           key = route.template;
           element.setAttribute("p-template", key);
           history.replaceState(
@@ -99,6 +97,7 @@ function connect() {
         const key = form.getAttribute("p-action");
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
+        form.reset();
         ws.send(JSON.stringify({ type: "action", payload: { key, data } }));
       }
       form.removeEventListener("submit", onSubmit);

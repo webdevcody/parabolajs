@@ -92,6 +92,15 @@ export function registerMain(parabola: Parabola) {
           >
             Views Example
           </a>
+
+          <a
+            p-href="/chat"
+            p-target="content"
+            p-swap="chat"
+            class="btn btn-primary mt-4"
+          >
+            Chat Example
+          </a>
         </div>
       </div>
     );

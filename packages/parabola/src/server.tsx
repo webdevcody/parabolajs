@@ -9,6 +9,37 @@ import { Renderer } from "./renderer";
 import fs from "fs/promises";
 import path from "path";
 
+function Main({ styles, routes }: { styles?: string[]; routes?: any[] }) {
+  return (
+    <html data-theme="night">
+      <head>
+        <meta charset="UTF-8" />
+        <title>Parabola</title>
+        {styles?.map((style) => (
+          <link rel="stylesheet" href={style} />
+        ))}
+      </head>
+      <body>
+        {/* <input type="hidden" id="routes" value={JSON.stringify(routes)} /> */}
+
+        <div id="main" p-template="main">
+          loading...
+        </div>
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          window.parabolaRoutes = ${JSON.stringify(routes)};
+          `,
+          }}
+        ></script>
+
+        <script src="/static/parabola.js"></script>
+      </body>
+    </html>
+  );
+}
+
 export class Parabola {
   private dispatcher: Dispatcher;
   private renderer: Renderer;
@@ -19,7 +50,7 @@ export class Parabola {
     return this.app;
   }
 
-  constructor(opts?: { styles?: string[] }) {
+  constructor(opts?: { styles?: string[]; routes?: any[] }) {
     this.dispatcher = new Dispatcher();
     this.renderer = new Renderer(this.dispatcher);
     this.controlBus = new ControlBus(this.renderer);
@@ -36,24 +67,7 @@ export class Parabola {
     });
 
     app.get("/", (c) => {
-      return c.html(
-        <html data-theme="night">
-          <head>
-            <meta charset="UTF-8" />
-            <title>Parabola</title>
-            {opts?.styles?.map((style) => (
-              <link rel="stylesheet" href={style} />
-            ))}
-          </head>
-          <body>
-            <div id="main" p-template="main">
-              loading...
-            </div>
-
-            <script src="/static/parabola.js"></script>
-          </body>
-        </html>
-      );
+      return c.html(<Main styles={opts?.styles} routes={opts?.routes} />);
     });
 
     app.get(
@@ -89,7 +103,7 @@ export class Parabola {
     );
 
     app.notFound((c) => {
-      return c.redirect("/");
+      return c.html(<Main styles={opts?.styles} routes={opts?.routes} />);
     });
 
     Bun.serve({

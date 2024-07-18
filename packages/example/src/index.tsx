@@ -7,6 +7,23 @@ import { registerViews } from "./pages/views";
 
 export const parabola = new Parabola({
   styles: ["/styles.css"],
+  routes: [
+    {
+      path: "/poll",
+      target: "content",
+      template: "poll",
+    },
+    {
+      path: "/views",
+      target: "content",
+      template: "views",
+    },
+    {
+      path: "/counter",
+      target: "content",
+      template: "counter",
+    },
+  ],
 });
 
 parabola

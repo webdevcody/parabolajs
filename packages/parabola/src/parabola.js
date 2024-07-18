@@ -2,6 +2,8 @@ function connect() {
   const ws = new WebSocket("/ws");
   const subscriptions = new Map();
 
+  let isFirstPageLoad = true;
+
   function register(parent = document) {
     registerTemplates(parent);
     registerActions(parent);
@@ -21,15 +23,6 @@ function connect() {
       register(targetEl);
     }
   };
-
-  // set some state on the current browser pop state when the page first loads?
-  window.history.replaceState(
-    {
-      template: "main",
-      target: "main",
-    },
-    ""
-  );
 
   function registerLoad(parent = document) {
     const elements = parent.querySelectorAll("[p-load]");
@@ -69,9 +62,27 @@ function connect() {
   }
 
   function registerTemplates(parent = document) {
+    const path = window.location.pathname;
+
     const elements = parent.querySelectorAll("[p-template]");
     elements.forEach((element) => {
-      const key = element.getAttribute("p-template");
+      let key = element.getAttribute("p-template");
+      const id = element.getAttribute("id");
+
+      for (const route of window.parabolaRoutes) {
+        if (route.path === path && id === route.target) {
+          console.log("found matching route and target", route);
+          key = route.template;
+          element.setAttribute("p-template", key);
+          history.replaceState(
+            {
+              template: key,
+              target: route.target,
+            },
+            ""
+          );
+        }
+      }
       if (!subscriptions.has(key)) {
         subscriptions.set(key, new Set());
       }
@@ -119,6 +130,7 @@ function connect() {
 
   ws.onopen = () => {
     register();
+    isFirstPageLoad = false;
   };
 }
 

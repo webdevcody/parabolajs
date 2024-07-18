@@ -101,6 +101,15 @@ export function registerMain(parabola: Parabola) {
           >
             Chat Example
           </a>
+
+          <a
+            p-href="/grid"
+            p-target="content"
+            p-swap="grid"
+            class="btn btn-primary mt-4"
+          >
+            Grid Example
+          </a>
         </div>
       </div>
     );

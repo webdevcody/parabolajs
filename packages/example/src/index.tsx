@@ -5,6 +5,7 @@ import { registerPoll } from "./pages/poll";
 import { registerCounter } from "./pages/counter";
 import { registerViews } from "./pages/views";
 import { registerChat } from "./pages/chat";
+import { registerGrid } from "./pages/grid";
 
 export const parabola = new Parabola({
   styles: ["/styles.css"],
@@ -34,6 +35,11 @@ export const parabola = new Parabola({
       target: "content",
       template: "chat",
     },
+    {
+      path: "/grid",
+      target: "content",
+      template: "grid",
+    },
   ],
 });
 
@@ -46,3 +52,4 @@ registerPoll(parabola);
 registerCounter(parabola);
 registerViews(parabola);
 registerChat(parabola);
+registerGrid(parabola);

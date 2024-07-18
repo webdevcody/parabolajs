@@ -1,5 +1,5 @@
 function connect() {
-  const ws = new WebSocket("ws://localhost:3000/ws");
+  const ws = new WebSocket("/ws");
   const subscriptions = new Map();
 
   function register(parent = document) {

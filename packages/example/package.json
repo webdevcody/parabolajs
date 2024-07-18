@@ -4,8 +4,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "run-p server tailwind",
-    "server": "bun --watch src/server.tsx",
-    "tailwind": "tailwindcss -i src/styles.css -o dist/styles.css --watch"
+    "server": "bun --watch src/index.tsx",
+    "tailwind": "tailwindcss -i src/styles.css -o dist/styles.css --watch",
+    "build:tailwind": "tailwindcss -i src/styles.css -o dist/styles.css"
   },
   "keywords": [],
   "author": "",

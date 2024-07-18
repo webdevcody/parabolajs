@@ -14,6 +14,10 @@ export class ControlBus {
   }
 
   on(key: string, cb: (invalidate: Invalidator, data: any) => void) {
+    if (this.actions.has(key)) {
+      console.error(`Action with key ${key} already exists`);
+      return;
+    }
     this.actions.set(key, cb);
   }
 
@@ -22,8 +26,9 @@ export class ControlBus {
     if (!action) {
       return;
     }
-    action((key: string) => {
+    const invalidate: Invalidator = (key: string) => {
       this.renderer.update(key);
-    }, data.data);
+    };
+    action(invalidate, data.data);
   }
 }

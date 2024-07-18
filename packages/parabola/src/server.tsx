@@ -37,7 +37,7 @@ export class Parabola {
 
     app.get("/", (c) => {
       return c.html(
-        <html>
+        <html data-theme="night">
           <head>
             <meta charset="UTF-8" />
             <title>Parabola</title>
@@ -46,7 +46,9 @@ export class Parabola {
             ))}
           </head>
           <body>
-            <div p-template="main">loading...</div>
+            <div id="main" p-template="main">
+              loading...
+            </div>
 
             <script src="/static/parabola.js"></script>
           </body>

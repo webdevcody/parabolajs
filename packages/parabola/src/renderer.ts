@@ -11,6 +11,10 @@ export class Renderer {
   }
 
   register(key: string, cb: () => string) {
+    if (this.templates.has(key)) {
+      console.error(`Template with key ${key} already exists`);
+      return;
+    }
     this.templates.set(key, cb);
   }
 

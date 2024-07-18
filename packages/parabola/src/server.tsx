@@ -88,6 +88,10 @@ export class Parabola {
       })
     );
 
+    app.notFound((c) => {
+      return c.redirect("/");
+    });
+
     Bun.serve({
       fetch: app.fetch,
       websocket,

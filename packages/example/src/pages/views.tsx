@@ -8,19 +8,36 @@ type User = {
 
 const users: User[] = [];
 
+function addUser(invalidate: any) {
+  const name = Math.random().toString(36).substring(7);
+  users.push({
+    name,
+  });
+  setTimeout(() => {
+    users.splice(
+      users.findIndex((u) => u.name === name),
+      1
+    );
+    invalidate("users");
+  }, 120000);
+  invalidate("users");
+}
+
 export function registerViews(parabola: Parabola) {
   parabola.template("views", () => {
     return (
-      <div
-        p-load="views:increment"
-        class="flex flex-col items-center py-12 gap-12"
-      >
-        <div class="text-center">
-          <div p-template="views:count"></div> people have loaded this example
-        </div>
+      <>
+        <div
+          p-load="views:increment"
+          class="flex flex-col items-center py-12 gap-12"
+        >
+          <div class="text-center">
+            <div p-template="views:count"></div> people have loaded this example
+          </div>
 
-        <div p-template="users"></div>
-      </div>
+          <div p-template="users"></div>
+        </div>
+      </>
     );
   });
 
@@ -49,21 +66,6 @@ export function registerViews(parabola: Parabola) {
   parabola.action("views:increment", (invalidate) => {
     views++;
     invalidate("views:count");
-  });
-
-  parabola.action("addUser", (invalidate) => {
-    const name = Math.random().toString(36).substring(7);
-    console.log("adding a user");
-    users.push({
-      name,
-    });
-    setTimeout(() => {
-      users.splice(
-        users.findIndex((u) => u.name === name),
-        1
-      );
-      invalidate("users");
-    }, 120000);
-    invalidate("users");
+    addUser(invalidate);
   });
 }
